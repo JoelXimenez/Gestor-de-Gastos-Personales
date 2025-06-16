@@ -1,0 +1,14 @@
+[
+    {
+        "categoria": "Universidad",
+        "subcategoria": "Comida",
+        "monto": 7.5,
+        "fecha": "2025-06-16 08:19:36"
+    },
+    {
+        "categoria": "Personal",
+        "subcategoria": "Libro de Sylvanas",
+        "monto": 35.5,
+        "fecha": "2025-06-16 08:20:02"
+    }
+]

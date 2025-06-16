@@ -24,52 +24,83 @@ class GestorGastosApp(ctk.CTk):
         self.linea_seleccionada = None
         self.linea_visual_seleccionada = None
 
-        ctk.CTkLabel(self, text="💰 Registro de Gastos", font=("Arial Rounded MT Bold", 24), text_color="#333333").pack(pady=10)
+        ctk.CTkLabel(
+            self,
+            text="💰 Registro de Gastos",
+            font=("Arial Rounded MT Bold", 24),
+            text_color="#333333"
+        ).pack(pady=10)
 
-        # ----------------------------- INPUTS -----------------------------
+        # Inputs
         ctk.CTkLabel(self, text="Categoría", anchor="w").pack()
         self.categorias = ["Universidad", "Personal", "Otros"]
-        self.combo_categoria = ctk.CTkOptionMenu(self, values=self.categorias, width=300)
+        self.combo_categoria = ctk.CTkOptionMenu(
+            self, values=self.categorias, width=300)
         self.combo_categoria.set("Universidad")
         self.combo_categoria.pack(pady=3)
 
         ctk.CTkLabel(self, text="Razón del gasto", anchor="w").pack()
-        self.entry_subcategoria = ctk.CTkEntry(self, placeholder_text="Ej: Comida, Transporte...", width=300)
+        self.entry_subcategoria = ctk.CTkEntry(
+            self, placeholder_text="Ej: Comida, Transporte...", width=300)
         self.entry_subcategoria.pack(pady=3)
 
         ctk.CTkLabel(self, text="Monto en USD", anchor="w").pack()
-        self.entry_monto = ctk.CTkEntry(self, placeholder_text="Ej: 12.50", width=300)
+        self.entry_monto = ctk.CTkEntry(
+            self, placeholder_text="Ej: 12.50", width=300)
         self.entry_monto.pack(pady=5)
 
-        # ----------------------------- BOTONES -----------------------------
+        # Botones
         frame_botones = ctk.CTkFrame(self, fg_color="#f2f2f2")
         frame_botones.pack(pady=10)
 
-        ctk.CTkButton(frame_botones, text="Registrar Gasto", command=self.registrar_gasto, width=160).grid(row=0, column=0, padx=10)
-        ctk.CTkButton(frame_botones, text="Eliminar Seleccionado", command=self.eliminar_gasto, fg_color="#ff4d4d", width=200).grid(row=0, column=1, padx=10)
+        ctk.CTkButton(
+            frame_botones,
+            text="Registrar Gasto",
+            command=self.registrar_gasto,
+            width=160
+        ).grid(row=0, column=0, padx=10)
 
-        # ----------------------------- FILTROS -----------------------------
+        ctk.CTkButton(
+            frame_botones,
+            text="Eliminar Seleccionado",
+            command=self.eliminar_gasto,
+            fg_color="#ff4d4d",
+            width=200
+        ).grid(row=0, column=1, padx=10)
+
+        # Filtros
         filtro_frame = ctk.CTkFrame(self, fg_color="white")
         filtro_frame.pack(pady=10)
 
         ctk.CTkLabel(filtro_frame, text="Categoría", anchor="w").grid(row=0, column=0, padx=5)
-        self.combo_filtro = ctk.CTkOptionMenu(filtro_frame, values=["Todas"] + self.categorias, command=self.filtrar_gastos, width=160)
+        self.combo_filtro = ctk.CTkOptionMenu(
+            filtro_frame,
+            values=["Todas"] + self.categorias,
+            command=self.filtrar_gastos,
+            width=160
+        )
         self.combo_filtro.set("Todas")
         self.combo_filtro.grid(row=1, column=0, padx=5)
 
         ctk.CTkLabel(filtro_frame, text="Razón contiene", anchor="w").grid(row=0, column=1, padx=5)
-        self.entry_buscar = ctk.CTkEntry(filtro_frame, placeholder_text="Buscar", width=180)
+        self.entry_buscar = ctk.CTkEntry(
+            filtro_frame, placeholder_text="Buscar", width=180)
         self.entry_buscar.grid(row=1, column=1, padx=5)
         self.entry_buscar.bind("<KeyRelease>", lambda e: self.filtrar_gastos())
 
         ctk.CTkLabel(filtro_frame, text="Fecha (mes-año)", anchor="w").grid(row=0, column=2, padx=5)
         self.meses = self.generar_lista_meses()
-        self.combo_mes = ctk.CTkOptionMenu(filtro_frame, values=["Todas"] + self.meses, command=self.filtrar_gastos, width=140)
+        self.combo_mes = ctk.CTkOptionMenu(
+            filtro_frame, values=["Todas"] + self.meses,
+            command=self.filtrar_gastos, width=140
+        )
         self.combo_mes.set("Todas")
         self.combo_mes.grid(row=1, column=2, padx=5)
 
-        # ----------------------------- LISTA GASTOS -----------------------------
-        self.texto_gastos = ctk.CTkTextbox(self, width=800, height=320, font=("Consolas", 13), text_color="#222222")
+        # TextBox
+        self.texto_gastos = ctk.CTkTextbox(
+            self, width=800, height=320, font=("Consolas", 13), text_color="#222222"
+        )
         self.texto_gastos.pack(pady=10)
         self.texto_gastos.bind("<Button-1>", self.guardar_linea_seleccionada)
 
@@ -86,7 +117,6 @@ class GestorGastosApp(ctk.CTk):
                 desde = datetime(desde.year + 1, 1, 1)
             else:
                 desde = datetime(desde.year, desde.month + 1, 1)
-
         return meses
 
     def registrar_gasto(self):
@@ -127,7 +157,10 @@ class GestorGastosApp(ctk.CTk):
 
         for i, gasto in enumerate(gastos):
             fecha = gasto.get('fecha', 'Sin fecha')
-            linea = f"{fecha} | {gasto['categoria']} > {gasto['subcategoria']}: ${gasto['monto']:.2f}\n"
+            linea = (
+                f"{fecha} | {gasto['categoria']} > "
+                f"{gasto['subcategoria']}: ${gasto['monto']:.2f}\n"
+            )
             index_inicio = self.texto_gastos.index("end-1c")
             self.texto_gastos.insert("end", linea)
             index_linea = int(float(index_inicio))
@@ -169,7 +202,7 @@ class GestorGastosApp(ctk.CTk):
                 try:
                     fecha_gasto = datetime.strptime(g["fecha"], "%Y-%m-%d %H:%M:%S")
                     cumple_fecha = fecha_gasto.strftime("%m-%Y") == mes_anio
-                except:
+                except Exception:
                     cumple_fecha = False
             else:
                 cumple_fecha = True
@@ -184,7 +217,6 @@ class GestorGastosApp(ctk.CTk):
         linea = int(float(index))
         self.linea_seleccionada = self.linea_a_indice.get(linea)
 
-        # Resalta visualmente la línea
         self.texto_gastos.tag_remove("seleccionado", "1.0", "end")
         self.texto_gastos.tag_config("seleccionado", background="#cceeff")
         self.texto_gastos.tag_add("seleccionado", f"{linea}.0", f"{linea}.end")
@@ -192,12 +224,23 @@ class GestorGastosApp(ctk.CTk):
     def eliminar_gasto(self):
         idx = self.linea_seleccionada
         if idx is None or idx >= len(self.gastos):
-            messagebox.showinfo("Selecciona un gasto", "Haz clic sobre la línea del gasto que quieras eliminar.")
+            messagebox.showinfo(
+                "Selecciona un gasto",
+                "Haz clic sobre la línea del gasto que quieras eliminar."
+            )
             return
 
         gasto = self.gastos[idx]
-        texto = f"{gasto['fecha']} | {gasto['categoria']} > {gasto['subcategoria']}: ${gasto['monto']:.2f}"
-        confirm = messagebox.askyesno("Confirmar eliminación", f"¿Eliminar este gasto?\n\n{texto}")
+        texto = (
+            f"{gasto['fecha']} | {gasto['categoria']} > "
+            f"{gasto['subcategoria']}: ${gasto['monto']:.2f}"
+        )
+
+        confirm = messagebox.askyesno(
+            "Confirmar eliminación",
+            f"¿Eliminar este gasto?\n\n{texto}"
+        )
+
         if confirm:
             del self.gastos[idx]
             self.linea_seleccionada = None

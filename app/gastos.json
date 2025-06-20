@@ -12,9 +12,15 @@
         "fecha": "2025-06-20 11:52:39"
     },
     {
+        "categoria": "Universidad",
+        "subcategoria": "Pasaje",
+        "monto": 0.7,
+        "fecha": "2025-06-20 18:52:29"
+    },
+    {
         "categoria": "Personal",
-        "subcategoria": "Comida en Lenua",
-        "monto": 105.0,
-        "fecha": "2025-06-20 13:32:16"
+        "subcategoria": "Pulseras",
+        "monto": 3.0,
+        "fecha": "2025-06-20 18:59:36"
     }
 ]

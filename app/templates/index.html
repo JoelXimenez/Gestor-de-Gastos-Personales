@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Gestor de Gastos Personales</title>
+  <script defer src="/static/js/app.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 40px;
+      background: #f2f2f2;
+    }
+
+    h2 {
+      color: #333;
+    }
+
+    select, input, button {
+      padding: 10px;
+      margin: 5px 10px 10px 0;
+      font-size: 14px;
+    }
+
+    label {
+      font-weight: bold;
+      display: inline-block;
+      margin-top: 10px;
+    }
+
+    #listaGastos div {
+      background: #fff;
+      margin: 5px 0;
+      padding: 10px;
+      border-left: 4px solid #007bff;
+    }
+
+    button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    .total {
+      font-weight: bold;
+      font-size: 16px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h2>💰 Gestor de Gastos Personales</h2>
+
+  <label for="filtroCategoria">Filtrar por Categoría:</label>
+  <select id="filtroCategoria" onchange="cargarGastos()">
+    <option value="Todas">Todas las categorías</option>
+    <option>Universidad</option>
+    <option>Personal</option>
+    <option>Otros</option>
+  </select>
+
+  <label for="filtroMes">Filtrar por Mes:</label>
+  <select id="filtroMes" onchange="cargarGastos()">
+    <!-- Se llena automáticamente -->
+  </select>
+
+  <hr>
+
+  <label for="categoria">Nueva Categoría:</label>
+  <select id="categoria">
+    <option>Universidad</option>
+    <option>Personal</option>
+    <option>Otros</option>
+  </select>
+
+  <label for="subcategoria">Razón del gasto:</label>
+  <input id="subcategoria" placeholder="Ej: Transporte, Libros" />
+
+  <label for="monto">Monto en USD:</label>
+  <input id="monto" placeholder="Ej: 25.50" type="number" step="0.01" />
+
+  <button onclick="registrarGasto()">Registrar</button>
+
+  <hr>
+
+  <div id="listaGastos"></div>
+</body>
+</html>
